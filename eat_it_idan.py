@@ -160,25 +160,26 @@ def good_food():
     #stamp_old = food_stamps[-1]
     food_stamps.append(stampnew)  
 
+box = turtle.clone()
+box.shape('square')
+box.fillcolor('green')
+
 def box():
     global y_pos
-    box = turtle.clone()    
     x = random.randint(1,20)
-    box.goto(x,y_pos)
+    #box.goto(x,y_pos)
+    box.goto(x,260)
     #box.addshape('box.gif')
     #box.shape('box.gif')
-    box.shape('square')
-    box.fillcolor('green')
-    box1 = 20
-    gravity()
-    x_box = box.pos()[0]
-    y_box = box.pos()[1]
 
 def gravity():
-    global my_pos,x_box,y_box,y_pos,x_pos
-    if x_pos == x_box:
-        turtle.goto(x_box,y_box)
-    
+    global my_pos,x_box,y_box,y_pos,x_pos,x,box
+    top_y = 260
+    #x_box = box.pos()[0]
+    #y_box = box.pos()[1]
+    for i in range(10):
+        top_y = top_y - 26
+        box.goto(x_pos,top_y)
 '''
 def bad_food():
     food = turtle.clone()
