@@ -190,7 +190,7 @@ def box():
     box1 = 20
 
     
-def gravity():
+
     
 '''
 def bad_food():
