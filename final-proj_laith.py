@@ -1,5 +1,4 @@
 import turtle
-#def MALE():
     
 print('are you MALE/FEMALE ? ')
 print('*PLEASE USE CAPITAL LETTERS')
@@ -12,3 +11,6 @@ elif gender == "FEMALE" :
     turtle.addshape('woman_right.gif')
     turtle.shape('woman_right.gif')
     
+
+ #   if direction == LEFT:
+  #      turtle.shape('man_left.gif')
