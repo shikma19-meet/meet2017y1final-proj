@@ -75,8 +75,15 @@ def down():
 def left():
     global direction
     direction = LEFT
-   # if direction == LEFT:
-    #    turtle.shape('man_left.gif')
+    if direction_person == LEFT :
+        turtle.register_shape('man_left.gif')
+        turtle.shape('man_left.gif')
+
+    if direction_person == LEFT:
+        turtle.register_shape('woman_left.gif')
+        turtle.shape('woman_left.gif')
+
+
         
     move_player()
     print('you pressed the left key')
@@ -101,16 +108,10 @@ gender = input('ANSWER:')
 if gender  == "MALE" :
     turtle.register_shape('man_right.gif')
     turtle.shape('man_right.gif')
-    if direction == LEFT :
-        turtle.register_shape('man_left.gif')
-        turtle.shape('man_left.gif')
-        
+
 elif gender == "FEMALE" :
     turtle.register_shape('woman_right.gif')
     turtle.shape('woman_right.gif')
-    if direction == LEFT :
-        turtle.register_shape('woman_left.gif')
-        turtle.shape('woman_left.gif')
 
 good_pos = (0,0)
 
