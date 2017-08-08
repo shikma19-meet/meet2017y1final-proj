@@ -13,8 +13,10 @@ def menu():
 menu()
 
 '''
+turtle2 = turtle.clone()
 score = 0
-turtle.write(str(score))
+turtle2.write(str(score))
+turtle2.ht()
 turtle.penup()
 #bird = turtle.clone()
 #turtle.addshape('bird.gif')
@@ -54,6 +56,7 @@ LEFT_ARROW = 'Left'
 DOWN_ARROW = 'Down'
 RIGHT_ARROW = 'Right'
 TIME_STEP = 100
+TIME_STEP2 = 10000
 SPACEBAR = 'space'
 
     
@@ -124,6 +127,8 @@ def move_player():
         good_food_pos.pop(good_food_ind)
         print('EATEN GOOD FOOD!')
         score = score + 1
+        turtle2.clear()
+        turtle2.write(str(score))
         good_food()
     if turtle.pos() in bad_food_pos:
         bad_food_ind = bad_food_pos.index(turtle.pos())
@@ -132,13 +137,18 @@ def move_player():
         bad_food_pos.pop(bad_food_ind)
         print('EATEN BAD FOOD!')
         score = score - 1
+        turtle2.clear()
+        turtle2.write(str(score))
+        if score == -5:
+            print('GAME OVER!')
+            quit()
         bad_food1()
 UP = 0
 LEFT = 1
 DOWN = 2
 RIGHT = 3
 
-direction = UP
+direction = DOWN
 
     
 def up():
@@ -218,9 +228,11 @@ def fall():
              y1 = y1 -25
              #x1 = x_pos
              my_clone.goto(x1,y1)    
-     create_box()
-     #time.sleep(10)
+
+     #create_box()
+     turtle.ontimer(create_box,TIME_STEP2)
      turtle.ontimer(fall,TIME_STEP)
+
 
 ##def jump():
     
@@ -241,6 +253,8 @@ def bad_food1():
     bad_stamp_new = bad_food.stamp()
     #stamp_old = food_stamps[-1]
     bad_food_stamps.append(bad_stamp_new)
+my_clone = turtle.clone()
+my_clone.ht()
 bad_food1()
 good_food()
 move_player()
