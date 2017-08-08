@@ -1,5 +1,6 @@
 import random
 import turtle
+import time
 
 turtle.tracer(1, 0)
 '''
@@ -13,7 +14,7 @@ menu()
 
 '''
 score = 0
-turtle.write(str(score) +": ", True, align="center")
+turtle.write(str(score))
 turtle.penup()
 #bird = turtle.clone()
 #turtle.addshape('bird.gif')
@@ -29,9 +30,11 @@ turtle.goto(0,-200)
 good_food_pos= []
 bad_food_pos = []
 good_food_stamps = []
+bad_food_stamps = []
 box_stamps = []
 box_pos=[]
 bird_pos=[]
+turtles_list = []
 SIZE_X = 400
 SIZE_Y = 400
 turtle.setup(500,500)
@@ -67,13 +70,25 @@ def move_player():
     if x_pos >= RIGHT_EDGE:
             turtle.goto(RIGHT_EDGE - 10, y_pos)
     if x_pos <= LEFT_EDGE:
-            turtle.goto(LEFT_EDGE + 100, y_pos)
+            turtle.goto(LEFT_EDGE + 10, y_pos)
+    if y_pos >= UP_EDGE:
+        turtle.goto(x_pos, UP_EDGE + 10)
+    
+    
+        
  
     if within_bounds: 
         if direction == RIGHT:
-            turtle.goto(x_pos + 100,y_pos)
+            turtle.goto(x_pos + 10,y_pos)
         elif direction == LEFT:
-            turtle.goto(x_pos - 100,y_pos)
+            turtle.goto(x_pos - 10,y_pos)
+        elif direction == UP:
+            turtle.goto(x_pos, y_pos +10)
+        global my_clone        
+        if turtle.pos == my_clone.pos():
+            if direction == UP:
+                turtle.goto(x_pos, y_pos +10)
+
         '''
     else:
         # x checks
@@ -107,11 +122,17 @@ def move_player():
         food.clearstamp(good_food_stamps[good_food_ind])
         good_food_stamps.pop(good_food_ind)
         good_food_pos.pop(good_food_ind)
-        print('EATEN')
+        print('EATEN GOOD FOOD!')
         score = score + 1
-        
         good_food()
-
+    if turtle.pos() in bad_food_pos:
+        bad_food_ind = bad_food_pos.index(turtle.pos())
+        bad_food.clearstamp(bad_food_stamps[bad_food_ind])
+        bad_food_stamps.pop(bad_food_ind)
+        bad_food_pos.pop(bad_food_ind)
+        print('EATEN BAD FOOD!')
+        score = score - 1
+        bad_food1()
 UP = 0
 LEFT = 1
 DOWN = 2
@@ -153,7 +174,7 @@ turtle.listen()
 good_pos = (0,0)
 food = turtle.clone()
 food.shape('square')
-food.fillcolor('yellow')
+food.fillcolor('green')
 food.hideturtle()
 
 def good_food():
@@ -165,43 +186,64 @@ def good_food():
     stampnew = food.stamp()
     #stamp_old = food_stamps[-1]
     good_food_stamps.append(stampnew)
-box = turtle.clone()
-box.shape('triangle')
-box.fillcolor('green')
 
-def fall_box():
-    global y_pos,box
-    x = random.randint(1,20)
-    #box.goto(x,y_pos)
-    box.goto(x,260)
-    #box.addshape('box.gif')
-    #box.shape('box.gif')
-    top_y = 260
-    all_way = 560
-    for i in range(10):
-        top_y = top_y - 51
-        box.goto(x_pos,all_way)
-        new_stamp = box.stamp()
-        box_stamps.append(new_stamp)
-        box.clearstamp(-1)
 
-'''
-def bad_food():
-    food = turtle.clone()
-    food.shape('square')
-    food.fillcolor('black')
+
+def create_box():
+    global y_pos,box,SIZE_X,player_size 
+    top_y = 300
     min_x=-int(SIZE_X/2/player_size)+1
     max_x=int(SIZE_X/2/player_size)-1
-    min_y=-int(SIZE_Y/2/player_size)+1
-    max_y=int(SIZE_Y/2/player_size)-1
-    food_x = random.randint(min_x,max_x)*player_size
-    food_y = random.randint(min_y,max_y)*player_size
-    food.goto(food_x,food_y)
-    good_food_pos.append(food.pos())
-    stampnew = food.stamp()
-    food_stamps.append(stampnew)
-'''
+    x = random.randint(min_x,max_x)*player_size
+    turtles_list.append(turtle.clone())
+    turtles_list[-1].hideturtle() 
+    turtles_list[-1].shape("square")
+    turtles_list[-1].fillcolor('red')
+    turtles_list[-1].goto(x,top_y)
+    turtles_list[-1].showturtle()
+    #box.goto(x,y_pos)
+    #box.goto(x,260)
+    #box.addshape('box.gif')
+    #box.shape('box.gif')
+    
+    #all_way = 510
+   
+        
+def fall():
+     global turtles_list,top_y,x_pos,turtle
+     for my_clone in turtles_list:
+         x1 = my_clone.pos()[0]
+         y1 =  my_clone.pos()[1]
+         if y1 > turtle.pos()[1]:
+             y1 = y1 -25
+             #x1 = x_pos
+             my_clone.goto(x1,y1)    
+     create_box()
+     #time.sleep(10)
+     turtle.ontimer(fall,TIME_STEP)
+
+##def jump():
+    
+    
+    
+bad_pos = (0,0)
+bad_food = turtle.clone()
+bad_food.shape('square')
+bad_food.fillcolor('black')
+bad_food.hideturtle()
+def bad_food1():
+    global SIZE_X,player_size,y_pos,bad_food
+    min_x=-int(SIZE_X/2/player_size)+1
+    max_x=int(SIZE_X/2/player_size)-1
+    bad_food_x = random.randint(min_x,max_x)*player_size
+    bad_food.goto(bad_food_x,y_pos)
+    bad_food_pos.append(bad_food.pos())
+    bad_stamp_new = bad_food.stamp()
+    #stamp_old = food_stamps[-1]
+    bad_food_stamps.append(bad_stamp_new)
+bad_food1()
 good_food()
 move_player()
-fall_box()
+create_box()
+fall()
 
