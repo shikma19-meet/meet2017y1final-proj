@@ -78,6 +78,7 @@ def move_player():
         turtle.goto(x_pos, UP_EDGE + 10)
     
     
+    
         
  
     if within_bounds: 
@@ -87,10 +88,14 @@ def move_player():
             turtle.goto(x_pos - 10,y_pos)
         elif direction == UP:
             turtle.goto(x_pos, y_pos +10)
+        elif direction == DOWN:
+            turtle.goto(x_pos,y_pos -10)
         global my_clone        
         if turtle.pos == my_clone.pos():
             if direction == UP:
                 turtle.goto(x_pos, y_pos +10)
+        #if turtle.pos() == my_clone.pos():
+            
 
         '''
     else:
@@ -154,7 +159,8 @@ direction = DOWN
 def up():
     global direction
     direction = UP
-    move_player()
+    #move_player()
+    jump()
     print('you pressed the up key')
     
 def down():
@@ -181,7 +187,7 @@ turtle.onkeypress(left, LEFT_ARROW)
 turtle.onkeypress(right, RIGHT_ARROW)
 turtle.listen()
     
-good_pos = (0,0)
+good_pos = (0,0) ##
 food = turtle.clone()
 food.shape('square')
 food.fillcolor('green')
@@ -218,9 +224,9 @@ def create_box():
     
     #all_way = 510
    
-        
+count = 0        
 def fall():
-     global turtles_list,top_y,x_pos,turtle
+     global turtles_list,top_y,x_pos,turtle,count
      for my_clone in turtles_list:
          x1 = my_clone.pos()[0]
          y1 =  my_clone.pos()[1]
@@ -228,16 +234,31 @@ def fall():
              y1 = y1 -25
              #x1 = x_pos
              my_clone.goto(x1,y1)    
+     count += 1
+     print(count)
+     if count%100==0:
+         num_box = count//100
+         for i in range(num_box):
+             create_box()
+         #for num_box in :
 
      #create_box()
-     turtle.ontimer(create_box,TIME_STEP2)
+     #turtle.ontimer(create_box,TIME_STEP2)
      turtle.ontimer(fall,TIME_STEP)
 
 
-##def jump():
-    
-    
-    
+def jump():
+    global direction,x_pos,y_pos,my_pos,y1 
+    if direction == UP:
+        turtle.goto(turtle.pos()[0],turtle.pos()[1] + 20)
+        for my_turtle in turtles_list:
+            if turtle.pos() == my_turtle.pos():
+                if turtle.pos() == my_turtle.pos():
+                    turtle.goto(turtle.pos()[0],y1)
+                if not turtle.pos() == my_clone.pos():
+                    turtle.goto(turtle.pos()[0],turtle.pos()[1] - 20)
+
+
 bad_pos = (0,0)
 bad_food = turtle.clone()
 bad_food.shape('square')
