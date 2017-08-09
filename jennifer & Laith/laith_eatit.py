@@ -268,6 +268,16 @@ def create_box():
     turtles_list[-1].fillcolor('red')
     turtles_list[-1].goto(x,top_y)
     turtles_list[-1].showturtle()
+
+    
+    min_x=-int(SIZE_X/2/player_size)+1
+    max_x=int(SIZE_X/2/player_size)-1
+    x = random.randint(min_x,max_x)*player_size
+    
+    turtles_list[-1].goto(x,top_y)
+    turtles_list[-1].showturtle()
+    chose_number()
+
     #box.goto(x,y_pos)
     #box.goto(x,260)
     #box.addshape('box.gif')
@@ -308,6 +318,16 @@ def jump():
                     turtle.goto(turtle.pos()[0],y1)
                 if not turtle.pos() == my_clone.pos():
                     turtle.goto(turtle.pos()[0],turtle.pos()[1] - 20)
+
+
+def chose_number():
+    number_of_boxes=random.randint(1,3)
+    for i in range (number_of_boxes):
+        x5 = turtle.clone()
+        x5.shape("square")
+        boxes_list.append(x5)
+    for g in boxes_list:
+        g.goto(random.randint(-200,200),200)
 
 
 bad_pos = (0,0)
