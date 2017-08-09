@@ -13,28 +13,21 @@ def menu():
 menu()
 
 '''
+
+########################################
+
 box_color_list = ["box1.gif", "box2.gif", "box3.gif", "box4.gif", "box5.gif"]
 background_list = ["background1.gif", "background2.gif", "background3.gif", "background4.gif"]
 
-
-randombox = random.randint (0, len(box_color_list)-1)
-this_box = box_color_list[randombox]
-
-
-box = turtle.clone()
-turtle.register_shape(this_box)
-box.shape(this_box)
-
 background = random.randint (0,4)
 screen = turtle.Screen()
-
-
 
 randbackground = random.randint (0,len(background_list)-1)
 this_background = background_list [randbackground]
 turtle.register_shape(this_background)
 turtle.bgpic (this_background)
 
+###########################################################
 
 turtle2 = turtle.clone()
 score = 0
@@ -56,6 +49,7 @@ good_food_pos= []
 bad_food_pos = []
 good_food_stamps = []
 bad_food_stamps = []
+boxes_list=[]
 box_stamps = []
 box_pos=[]
 bird_pos=[]
@@ -101,6 +95,7 @@ def move_player():
         turtle.goto(x_pos, UP_EDGE + 10)
     
     
+    
         
  
     if within_bounds: 
@@ -110,10 +105,14 @@ def move_player():
             turtle.goto(x_pos - 10,y_pos)
         elif direction == UP:
             turtle.goto(x_pos, y_pos +10)
+        elif direction == DOWN:
+            turtle.goto(x_pos,y_pos -10)
         global my_clone        
         if turtle.pos == my_clone.pos():
             if direction == UP:
                 turtle.goto(x_pos, y_pos +10)
+        #if turtle.pos() == my_clone.pos():
+            
 
         '''
     else:
@@ -177,7 +176,8 @@ direction = DOWN
 def up():
     global direction
     direction = UP
-    move_player()
+    #move_player()
+    jump()
     print('you pressed the up key')
     
 def down():
@@ -204,7 +204,7 @@ turtle.onkeypress(left, LEFT_ARROW)
 turtle.onkeypress(right, RIGHT_ARROW)
 turtle.listen()
     
-good_pos = (0,0)
+good_pos = (0,0) ##
 food = turtle.clone()
 food.shape('square')
 food.fillcolor('green')
@@ -223,27 +223,27 @@ def good_food():
 
 
 def create_box():
-    global y_pos,box,SIZE_X,player_size 
-    top_y = 300
+
+    top_y=300
+    randombox = random.randint (0, len(box_color_list)-1)
+    this_box = box_color_list[randombox]
+    turtle.register_shape(this_box)
+    box = turtle.clone()
+    turtles_list.append(box)
+    turtles_list[-1].hideturtle() 
+    turtles_list[-1].shape(this_box)
+
     min_x=-int(SIZE_X/2/player_size)+1
     max_x=int(SIZE_X/2/player_size)-1
     x = random.randint(min_x,max_x)*player_size
-    turtles_list.append(turtle.clone())
-    turtles_list[-1].hideturtle() 
-    turtles_list[-1].shape("square")
-    turtles_list[-1].fillcolor('red')
+    
     turtles_list[-1].goto(x,top_y)
     turtles_list[-1].showturtle()
-    #box.goto(x,y_pos)
-    #box.goto(x,260)
-    #box.addshape('box.gif')
-    #box.shape('box.gif')
-    
-    #all_way = 510
+
    
-        
+count = 0        
 def fall():
-     global turtles_list,top_y,x_pos,turtle
+     global turtles_list,top_y,x_pos,turtle,count
      for my_clone in turtles_list:
          x1 = my_clone.pos()[0]
          y1 =  my_clone.pos()[1]
@@ -251,16 +251,39 @@ def fall():
              y1 = y1 -25
              #x1 = x_pos
              my_clone.goto(x1,y1)    
+     count += 1
+     print(count)
+     if count%100==0:
+         num_box = count//100
+         for i in range(num_box):
+             create_box()
+         #for num_box in :
 
      #create_box()
-     turtle.ontimer(create_box,TIME_STEP2)
+     #turtle.ontimer(create_box,TIME_STEP2)
      turtle.ontimer(fall,TIME_STEP)
 
 
-##def jump():
-    
-    
-    
+def jump():
+    global direction,x_pos,y_pos,my_pos,y1 
+    if direction == UP:
+        turtle.goto(turtle.pos()[0],turtle.pos()[1] + 20)
+        for my_turtle in turtles_list:
+            if turtle.pos() == my_turtle.pos():
+                if turtle.pos() == my_turtle.pos():
+                    turtle.goto(turtle.pos()[0],y1)
+                if not turtle.pos() == my_clone.pos():
+                    turtle.goto(turtle.pos()[0],turtle.pos()[1] - 20)
+
+def chose_number():
+    number_of_boxes=random.randint(1,3)
+    for i in range (number_of_boxes):
+        x5 = turtle.clone()
+        x5.shape("square")
+        boxes_list.append(x5)
+    for g in boxes_list:
+        g.goto(random.randint(-200,200),200)
+    turtle.mainloop()
 bad_pos = (0,0)
 bad_food = turtle.clone()
 bad_food.shape('square')
