@@ -24,15 +24,4 @@ this_background = background_list [randbackground]
 turtle.register_shape(this_background)
 turtle.bgpic (this_background)
 
-
-gabi = turtle.clone()
-gabi.penup()
-gabi.goto(0,-290)
-gabi.pendown()
-gabi.goto(0,285)
-gabi.penup()
-gabi.goto(350,0)
-gabi.pendown()
-gabi.goto(-340,0)
-
 turtle.mainloop()
