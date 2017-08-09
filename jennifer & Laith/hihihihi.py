@@ -34,3 +34,5 @@ gabi.penup()
 gabi.goto(350,0)
 gabi.pendown()
 gabi.goto(-340,0)
+
+turtle.mainloop()
