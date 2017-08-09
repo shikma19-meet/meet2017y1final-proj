@@ -1,5 +1,5 @@
-import turtle
 import random
+import turtle
 import time
 
 turtle.tracer(1, 0)
@@ -17,6 +17,13 @@ box_color_list = ["box1.gif", "box2.gif", "box3.gif", "box4.gif", "box5.gif"]
 background_list = ["background1.gif", "background2.gif", "background3.gif", "background4.gif"]
 
 
+randombox = random.randint (0, len(box_color_list)-1)
+this_box = box_color_list[randombox]
+
+
+box = turtle.clone()
+turtle.register_shape(this_box)
+box.shape(this_box)
 
 background = random.randint (0,4)
 screen = turtle.Screen()
@@ -27,7 +34,6 @@ randbackground = random.randint (0,len(background_list)-1)
 this_background = background_list [randbackground]
 turtle.register_shape(this_background)
 turtle.bgpic (this_background)
-
 
 
 turtle2 = turtle.clone()
@@ -50,12 +56,10 @@ good_food_pos= []
 bad_food_pos = []
 good_food_stamps = []
 bad_food_stamps = []
-box_color_list = ["box1.gif", "box2.gif", "box3.gif", "box4.gif", "box5.gif"]
 box_stamps = []
 box_pos=[]
 bird_pos=[]
 turtles_list = []
-background_list = ["background1.gif", "background2.gif", "background3.gif", "background4.gif"]
 SIZE_X = 400
 SIZE_Y = 400
 turtle.setup(500,500)
@@ -219,18 +223,17 @@ def good_food():
 
 
 def create_box():
-    top_y=300
-    randombox = random.randint (0, len(box_color_list)-1)
-    this_box = box_color_list[randombox]
-    turtle.register_shape(this_box)
-    box = turtle.clone()
-    turtles_list.append(box)
+    global y_pos,box,SIZE_X,player_size 
+    top_y = 300
+    min_x=-int(SIZE_X/2/player_size)+1
+    max_x=int(SIZE_X/2/player_size)-1
+    x = random.randint(min_x,max_x)*player_size
+    turtles_list.append(turtle.clone())
     turtles_list[-1].hideturtle() 
-    turtles_list[-1].shape(this_box)
-    turtles_list[-1].goto(randombox,top_y)
+    turtles_list[-1].shape("square")
+    turtles_list[-1].fillcolor('red')
+    turtles_list[-1].goto(x,top_y)
     turtles_list[-1].showturtle()
-
-
     #box.goto(x,y_pos)
     #box.goto(x,260)
     #box.addshape('box.gif')
@@ -241,17 +244,17 @@ def create_box():
         
 def fall():
      global turtles_list,top_y,x_pos,turtle
-     for box in turtles_list:
-         x1 = box.pos()[0]
-         y1 =  box.pos()[1]
+     for my_clone in turtles_list:
+         x1 = my_clone.pos()[0]
+         y1 =  my_clone.pos()[1]
          if y1 > turtle.pos()[1]:
              y1 = y1 -25
              #x1 = x_pos
-             box.goto(x1,y1)    
+             my_clone.goto(x1,y1)    
 
      #create_box()
      turtle.ontimer(create_box,TIME_STEP2)
-     turtle.ontimer(create_box,TIME_STEP)
+     turtle.ontimer(fall,TIME_STEP)
 
 
 ##def jump():
@@ -280,5 +283,4 @@ good_food()
 move_player()
 create_box()
 fall()
-
 
