@@ -1,4 +1,5 @@
 import turtle
+turtle.tracer()
 def menu():
     x = input('would you like to start the game? \n (YES/NO) \n would you like to quit the menu bar? \n (QUIT) \n *PLEASE USE CAPITAL LETTERS \n YOUR ANSWER: ')
     if x == 'NO' or x == 'QUIT':
