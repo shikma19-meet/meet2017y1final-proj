@@ -1,18 +1,10 @@
 import random
 import turtle
 
+print('are you MALE/FEMALE ? ')
+print('*PLEASE USE CAPITAL LETTERS')
+gender = input('ANSWER:')
 
-'''
->>>>>>> 4ca2b105aa754d0319753bec891bc67f874cda65
-def menu():
-    x = input('would you like to start the game? \n (YES/NO) \n would you like to quit the menu bar? \n (QUIT) \n *PLEASE USE CAPITAL LETTERS \n YOUR ANSWER: ')
-    if x == 'NO' or x == 'QUIT':
-        quit()
-    elif x == 'YES':
-        print('')
-
-menu()
-'''
 turtle.penup()
 #bird = turtle.clone()
 #turtle.addshape('bird.gif')
@@ -59,7 +51,18 @@ RIGHT = 3
 
 direction = UP
 
-    
+turtle.register_shape('man_right.gif')
+turtle.register_shape('man_left.gif')
+turtle.register_shape('woman_right.gif')
+turtle.register_shape('woman_left.gif')
+
+
+if gender  == "MALE" :
+    turtle.shape('man_right.gif')        
+else:
+    turtle.shape('woman_right.gif')
+
+
 def up():
     global direction
     direction = UP
@@ -75,15 +78,25 @@ def down():
 def left():
     global direction
     direction = LEFT
-   # if direction == LEFT:
-    #    turtle.shape('man_left.gif')
-        
+
+    if gender  == "MALE" :
+        turtle.shape('man_left.gif')        
+    else:
+        turtle.shape('woman_left.gif')
+    
     move_player()
     print('you pressed the left key')
     
 def right():
     global direction
     direction = RIGHT
+
+    if gender  == "MALE" :
+        turtle.shape('man_right.gif')        
+    else:
+        turtle.shape('woman_right.gif')
+  
+    
     move_player()
     print('you pressed the right key')
 
@@ -92,25 +105,6 @@ turtle.onkeypress(down, DOWN_ARROW)
 turtle.onkeypress(left, LEFT_ARROW)
 turtle.onkeypress(right, RIGHT_ARROW)
 turtle.listen()
-
-turtle1=turtle.clone()
-
-print('are you MALE/FEMALE ? ')
-print('*PLEASE USE CAPITAL LETTERS')
-gender = input('ANSWER:')
-if gender  == "MALE" :
-    turtle.register_shape('man_right.gif')
-    turtle.shape('man_right.gif')
-    if direction == LEFT :
-        turtle.register_shape('man_left.gif')
-        turtle.shape('man_left.gif')
-        
-elif gender == "FEMALE" :
-    turtle.register_shape('woman_right.gif')
-    turtle.shape('woman_right.gif')
-    if direction == LEFT :
-        turtle.register_shape('woman_left.gif')
-        turtle.shape('woman_left.gif')
 
 good_pos = (0,0)
 
