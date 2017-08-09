@@ -274,7 +274,7 @@ def jump():
                     turtle.goto(turtle.pos()[0],y1)
                 if not turtle.pos() == my_clone.pos():
                     turtle.goto(turtle.pos()[0],turtle.pos()[1] - 20)
-
+#####
 def chose_number():
     number_of_boxes=random.randint(1,3)
     for i in range (number_of_boxes):
@@ -283,7 +283,7 @@ def chose_number():
         boxes_list.append(x5)
     for g in boxes_list:
         g.goto(random.randint(-200,200),200)
-    turtle.mainloop()
+    ###
 bad_pos = (0,0)
 bad_food = turtle.clone()
 bad_food.shape('square')
