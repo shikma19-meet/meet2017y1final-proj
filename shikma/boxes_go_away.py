@@ -35,7 +35,7 @@ good_food_stamps = []
 bad_food_stamps = []
 box_stamps = []
 box_pos=[]
-bird_pos=[]
+player_pos=[]
 turtles_list = []
 SIZE_X = 400
 SIZE_Y = 400
@@ -49,7 +49,7 @@ UP_EDGE = 200
 DOWN_EDGE = -200
 RIGHT_EDGE = 200
 LEFT_EDGE = -200
-
+player_pos.append(turtle.pos())
 
 UP_ARROW = 'Up'
 LEFT_ARROW = 'Left'
@@ -62,6 +62,7 @@ SPACEBAR = 'space'
     
 
 def move_player():
+    global my_clone
     my_pos = turtle.pos()
     x_pos = my_pos[0]
     y_pos = my_pos[1]
@@ -76,9 +77,9 @@ def move_player():
             turtle.goto(LEFT_EDGE + 10, y_pos)
     if y_pos >= UP_EDGE:
         turtle.goto(x_pos, UP_EDGE + 10)
-    
-    
-    
+
+    if turtle.pos() in my_clone.pos():
+        quit()
         
  
     if within_bounds: 
@@ -224,6 +225,7 @@ def create_box():
     #box.shape('box.gif')
     
     #all_way = 510
+
    
 count = 0        
 def fall():
@@ -236,7 +238,7 @@ def fall():
              #x1 = x_pos
              my_clone.goto(x1,y1)    
      count += 1
-     print(count)
+##     print(count)
      if count%100==0:
          num_box = count//100
          for i in range(num_box):
