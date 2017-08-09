@@ -2,8 +2,6 @@ import random
 import turtle
 import time
 
-turtle.tracer(1, 0)
-'''
 def menu():
     x = input('would you like to start the game? \n (YES/NO) \n would you like to quit the menu bar? \n (QUIT) \n *PLEASE USE CAPITAL LETTERS \n YOUR ANSWER: ')
     if x == 'NO' or x == 'QUIT':
@@ -12,7 +10,35 @@ def menu():
         print('')
 menu()
 
-'''
+print('are you MALE/FEMALE ? ')
+print('*PLEASE USE CAPITAL LETTERS')
+gender = input('ANSWER:')
+
+#lists
+box_color_list = ["box1.gif", "box2.gif", "box3.gif", "box4.gif", "box5.gif"]
+background_list = ["background1.gif", "background2.gif", "background3.gif", "background4.gif"]
+
+randombox = random.randint (0, len(box_color_list)-1)
+this_box = box_color_list[randombox]
+
+
+box = turtle.clone()
+turtle.register_shape(this_box)
+box.shape(this_box)
+
+
+background = random.randint (0,4)
+screen = turtle.Screen()
+
+
+
+randbackground = random.randint (0,len(background_list)-1)
+this_background = background_list [randbackground]
+turtle.register_shape(this_background)
+turtle.bgpic (this_background)
+
+turtle.tracer(1, 0)
+
 turtle2 = turtle.clone()
 score = 0
 turtle2.write(str(score))
@@ -155,11 +181,21 @@ RIGHT = 3
 
 direction = DOWN
 
-    
+turtle.register_shape('man_right.gif')
+turtle.register_shape('man_left.gif')
+turtle.register_shape('woman_right.gif')
+turtle.register_shape('woman_left.gif')
+
+if gender  == "MALE" :
+    turtle.shape('man_right.gif')        
+else:
+    turtle.shape('woman_right.gif')
+
+
 def up():
     global direction
     direction = UP
-    #move_player()
+    move_player()
     jump()
     print('you pressed the up key')
     
@@ -172,14 +208,29 @@ def down():
 def left():
     global direction
     direction = LEFT
+
+    if gender  == "MALE" :
+        turtle.shape('man_left.gif')        
+    else:
+        turtle.shape('woman_left.gif')
+    
     move_player()
     print('you pressed the left key')
     
 def right():
     global direction
     direction = RIGHT
+
+    if gender  == "MALE" :
+        turtle.shape('man_right.gif')        
+    else:
+        turtle.shape('woman_right.gif')
+  
+    
     move_player()
     print('you pressed the right key')
+
+
 
 turtle.onkeypress(up, UP_ARROW)
 turtle.onkeypress(down, DOWN_ARROW)
