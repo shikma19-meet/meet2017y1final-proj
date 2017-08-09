@@ -2,6 +2,8 @@ import random
 import turtle
 import time
 
+turtle.tracer(1, 0)
+'''
 def menu():
     x = input('would you like to start the game? \n (YES/NO) \n would you like to quit the menu bar? \n (QUIT) \n *PLEASE USE CAPITAL LETTERS \n YOUR ANSWER: ')
     if x == 'NO' or x == 'QUIT':
@@ -9,51 +11,27 @@ def menu():
     elif x == 'YES':
         print('')
 menu()
+'''
 
-print('are you MALE/FEMALE ? ')
-print('*PLEASE USE CAPITAL LETTERS')
-gender = input('ANSWER:')
-
-#lists
-box_color_list = ["box1.gif", "box2.gif", "box3.gif", "box4.gif", "box5.gif"]
-background_list = ["background1.gif", "background2.gif", "background3.gif", "background4.gif"]
-
-randombox = random.randint (0, len(box_color_list)-1)
-this_box = box_color_list[randombox]
-
-
-box = turtle.clone()
-turtle.register_shape(this_box)
-box.shape(this_box)
-
-
-background = random.randint (0,4)
-screen = turtle.Screen()
-
-
-
-randbackground = random.randint (0,len(background_list)-1)
-this_background = background_list [randbackground]
-turtle.register_shape(this_background)
-turtle.bgpic (this_background)
-
-turtle.tracer(1, 0)
-
+###############################################################
+# screen setup + score turtle clone + player
+# score 
 turtle2 = turtle.clone()
 score = 0
-turtle2.write(str(score))
+turtle2.write(str(score), font=( "Aerial", 24, "normal"))
 turtle2.ht()
 turtle.penup()
-#bird = turtle.clone()
-#turtle.addshape('bird.gif')
-#bird.shape('bird.gif')
+
+# player
 turtle.shape('circle')
-#turtle.hideturtle()
+# screen setup
+
 turtle.Screen()
 turtle.fillcolor('white')
 screen = turtle.Screen()
 screen.bgcolor('light blue')
 
+# initial vars
 turtle.goto(0,-200)
 good_food_pos= []
 bad_food_pos = []
@@ -61,10 +39,9 @@ good_food_stamps = []
 bad_food_stamps = []
 box_stamps = []
 box_pos=[]
-bird_pos=[]
 turtles_list = []
-SIZE_X = 400
-SIZE_Y = 400
+SIZE_X = 500
+SIZE_Y = 500
 turtle.setup(500,500)
 player_size = 10
 my_pos = turtle.pos()
@@ -92,63 +69,42 @@ def move_player():
     x_pos = my_pos[0]
     y_pos = my_pos[1]
 
+    # check boundaries
     x_ok = LEFT_EDGE <= x_pos <= RIGHT_EDGE
     y_ok = UP_EDGE >= y_pos >= DOWN_EDGE
     within_bounds = x_ok and y_ok
 
-    if x_pos >= RIGHT_EDGE:
-            turtle.goto(RIGHT_EDGE - 10, y_pos)
-    if x_pos <= LEFT_EDGE:
-            turtle.goto(LEFT_EDGE + 10, y_pos)
-    if y_pos >= UP_EDGE:
-        turtle.goto(x_pos, UP_EDGE + 10)
+    # pseudo bounce back on edges
+##    if x_pos >= RIGHT_EDGE:
+##            turtle.goto(RIGHT_EDGE -20, y_pos)
+##    if x_pos <= LEFT_EDGE:
+##            turtle.goto(LEFT_EDGE + 20, y_pos)
+##    if y_pos >= UP_EDGE:
+##        turtle.goto(x_pos, UP_EDGE - 20)
+##    if y_pos >= DOWN_EDGE:
+##        turtle.goto(x_pos, DOWN_EDGE +20)
     
-    
-    
-        
- 
+
+##    if turtle.pos()[0] == RIGHT_EDGE:
+##        turtle.goto(RIGHT_EDGE -10,y_pos)
+##    if turtle.pos()[0] == LEFT_EDGE:
+##        turtle.goto(LEFT_EDGE + 10,y_pos)
+
     if within_bounds: 
         if direction == RIGHT:
             turtle.goto(x_pos + 10,y_pos)
         elif direction == LEFT:
             turtle.goto(x_pos - 10,y_pos)
         elif direction == UP:
-            turtle.goto(x_pos, y_pos +10)
+            turtle.goto(x_pos, y_pos + 10)
         elif direction == DOWN:
-            turtle.goto(x_pos,y_pos -10)
+            turtle.goto(x_pos,y_pos - 10)
         global my_clone        
         if turtle.pos == my_clone.pos():
             if direction == UP:
                 turtle.goto(x_pos, y_pos +10)
         #if turtle.pos() == my_clone.pos():
-            
 
-        '''
-    else:
-        # x checks
-        # right edge check
-        if x_pos >= RIGHT_EDGE:
-            if direction == LEFT:
-                turtle.goto(x_pos - 10,y_pos)
-        if x_pos <= LEFT_EDGE:
-            if direction == RIGHT:
-                turtle.goto(x_pos + 10,y_pos)
-        if y_pos >= UP_EDGE:
-            if direction == RIGHT:
-                turtle.goto(x_pos + 10,y_pos)
-            elif direction == LEFT:
-                turtle.goto(x_pos - 10, y_pos)
-            elif direction == DOWN:
-                turtle.goto(x_pos, y_pos -10)
-            
-        if y_pos <= DOWN_EDGE:
-            if direction == RIGHT:
-                turtle.goto(x_pos + 10,y_pos)
-            elif direction == LEFT:
-                turtle.goto(x_pos - 10, y_pos)
-            elif direction == UP:
-                turtle.goto(x_pos, y_pos + 10)
-    '''        
     global food,score
     #turtle.ontimer(move_player,TIME_STEP)
     if turtle.pos() in good_food_pos:
@@ -159,8 +115,9 @@ def move_player():
         print('EATEN GOOD FOOD!')
         score = score + 1
         turtle2.clear()
-        turtle2.write(str(score))
+        turtle2.write(str(score),font=("Aerial", 24, "normal"))
         good_food()
+        
     if turtle.pos() in bad_food_pos:
         bad_food_ind = bad_food_pos.index(turtle.pos())
         bad_food.clearstamp(bad_food_stamps[bad_food_ind])
@@ -169,7 +126,7 @@ def move_player():
         print('EATEN BAD FOOD!')
         score = score - 1
         turtle2.clear()
-        turtle2.write(str(score))
+        turtle2.write(str(score), font=("Aerial", 24, "normal"))
         if score == -5:
             print('GAME OVER!')
             quit()
@@ -179,23 +136,13 @@ LEFT = 1
 DOWN = 2
 RIGHT = 3
 
-direction = DOWN
+direction = 1
 
-turtle.register_shape('man_right.gif')
-turtle.register_shape('man_left.gif')
-turtle.register_shape('woman_right.gif')
-turtle.register_shape('woman_left.gif')
-
-if gender  == "MALE" :
-    turtle.shape('man_right.gif')        
-else:
-    turtle.shape('woman_right.gif')
-
-
+    
 def up():
     global direction
     direction = UP
-    move_player()
+    #move_player()
     jump()
     print('you pressed the up key')
     
@@ -208,29 +155,14 @@ def down():
 def left():
     global direction
     direction = LEFT
-
-    if gender  == "MALE" :
-        turtle.shape('man_left.gif')        
-    else:
-        turtle.shape('woman_left.gif')
-    
     move_player()
     print('you pressed the left key')
     
 def right():
     global direction
     direction = RIGHT
-
-    if gender  == "MALE" :
-        turtle.shape('man_right.gif')        
-    else:
-        turtle.shape('woman_right.gif')
-  
-    
     move_player()
     print('you pressed the right key')
-
-
 
 turtle.onkeypress(up, UP_ARROW)
 turtle.onkeypress(down, DOWN_ARROW)
@@ -274,17 +206,19 @@ def create_box():
     #box.shape('box.gif')
     
     #all_way = 510
-   
+bottom_y = -200
 count = 0        
 def fall():
-     global turtles_list,top_y,x_pos,turtle,count
+     global turtles_list,top_y,x_pos,turtle,count,y_pos,bottom_y
      for my_clone in turtles_list:
          x1 = my_clone.pos()[0]
          y1 =  my_clone.pos()[1]
-         if y1 > turtle.pos()[1]:
+         if y1 > y_pos:
              y1 = y1 -25
              #x1 = x_pos
-             my_clone.goto(x1,y1)    
+             my_clone.goto(x1,y1)
+         if bottom_y > my_clone.pos()[1]:
+             my_clone.goto(x1,y_pos)
      count += 1
      print(count)
      if count%100==0:
@@ -332,4 +266,3 @@ good_food()
 move_player()
 create_box()
 fall()
-

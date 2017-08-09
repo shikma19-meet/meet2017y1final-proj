@@ -2,6 +2,8 @@ import random
 import turtle
 import time
 
+turtle.tracer(1, 0)
+'''
 def menu():
     x = input('would you like to start the game? \n (YES/NO) \n would you like to quit the menu bar? \n (QUIT) \n *PLEASE USE CAPITAL LETTERS \n YOUR ANSWER: ')
     if x == 'NO' or x == 'QUIT':
@@ -10,35 +12,7 @@ def menu():
         print('')
 menu()
 
-print('are you MALE/FEMALE ? ')
-print('*PLEASE USE CAPITAL LETTERS')
-gender = input('ANSWER:')
-
-#lists
-box_color_list = ["box1.gif", "box2.gif", "box3.gif", "box4.gif", "box5.gif"]
-background_list = ["background1.gif", "background2.gif", "background3.gif", "background4.gif"]
-
-randombox = random.randint (0, len(box_color_list)-1)
-this_box = box_color_list[randombox]
-
-
-box = turtle.clone()
-turtle.register_shape(this_box)
-box.shape(this_box)
-
-
-background = random.randint (0,4)
-screen = turtle.Screen()
-
-
-
-randbackground = random.randint (0,len(background_list)-1)
-this_background = background_list [randbackground]
-turtle.register_shape(this_background)
-turtle.bgpic (this_background)
-
-turtle.tracer(1, 0)
-
+'''
 turtle2 = turtle.clone()
 score = 0
 turtle2.write(str(score))
@@ -61,7 +35,7 @@ good_food_stamps = []
 bad_food_stamps = []
 box_stamps = []
 box_pos=[]
-bird_pos=[]
+player_pos=[]
 turtles_list = []
 SIZE_X = 400
 SIZE_Y = 400
@@ -75,7 +49,7 @@ UP_EDGE = 200
 DOWN_EDGE = -200
 RIGHT_EDGE = 200
 LEFT_EDGE = -200
-
+player_pos.append(turtle.pos())
 
 UP_ARROW = 'Up'
 LEFT_ARROW = 'Left'
@@ -88,6 +62,7 @@ SPACEBAR = 'space'
     
 
 def move_player():
+    global my_clone
     my_pos = turtle.pos()
     x_pos = my_pos[0]
     y_pos = my_pos[1]
@@ -102,9 +77,9 @@ def move_player():
             turtle.goto(LEFT_EDGE + 10, y_pos)
     if y_pos >= UP_EDGE:
         turtle.goto(x_pos, UP_EDGE + 10)
-    
-    
-    
+
+    if turtle.pos() in my_clone.pos():
+        quit()
         
  
     if within_bounds: 
@@ -181,21 +156,11 @@ RIGHT = 3
 
 direction = DOWN
 
-turtle.register_shape('man_right.gif')
-turtle.register_shape('man_left.gif')
-turtle.register_shape('woman_right.gif')
-turtle.register_shape('woman_left.gif')
-
-if gender  == "MALE" :
-    turtle.shape('man_right.gif')        
-else:
-    turtle.shape('woman_right.gif')
-
-
+    
 def up():
     global direction
     direction = UP
-    move_player()
+    #move_player()
     jump()
     print('you pressed the up key')
     
@@ -208,29 +173,14 @@ def down():
 def left():
     global direction
     direction = LEFT
-
-    if gender  == "MALE" :
-        turtle.shape('man_left.gif')        
-    else:
-        turtle.shape('woman_left.gif')
-    
     move_player()
     print('you pressed the left key')
     
 def right():
     global direction
     direction = RIGHT
-
-    if gender  == "MALE" :
-        turtle.shape('man_right.gif')        
-    else:
-        turtle.shape('woman_right.gif')
-  
-    
     move_player()
     print('you pressed the right key')
-
-
 
 turtle.onkeypress(up, UP_ARROW)
 turtle.onkeypress(down, DOWN_ARROW)
@@ -269,21 +219,13 @@ def create_box():
     turtles_list[-1].goto(x,top_y)
     turtles_list[-1].showturtle()
 
-    
-    min_x=-int(SIZE_X/2/player_size)+1
-    max_x=int(SIZE_X/2/player_size)-1
-    x = random.randint(min_x,max_x)*player_size
-    
-    turtles_list[-1].goto(x,top_y)
-    turtles_list[-1].showturtle()
-    chose_number()
-
     #box.goto(x,y_pos)
     #box.goto(x,260)
     #box.addshape('box.gif')
     #box.shape('box.gif')
     
     #all_way = 510
+
    
 count = 0        
 def fall():
@@ -296,17 +238,21 @@ def fall():
              #x1 = x_pos
              my_clone.goto(x1,y1)    
      count += 1
-     print(count)
+##     print(count)
      if count%100==0:
          num_box = count//100
          for i in range(num_box):
              create_box()
-         #for num_box in :
+
+         turtle.ontimer(clear, 5000)
 
      #create_box()
      #turtle.ontimer(create_box,TIME_STEP2)
      turtle.ontimer(fall,TIME_STEP)
 
+def clear():
+    for i in turtles_list:
+        i.hideturtle()
 
 def jump():
     global direction,x_pos,y_pos,my_pos,y1 
@@ -318,16 +264,6 @@ def jump():
                     turtle.goto(turtle.pos()[0],y1)
                 if not turtle.pos() == my_clone.pos():
                     turtle.goto(turtle.pos()[0],turtle.pos()[1] - 20)
-
-
-def chose_number():
-    number_of_boxes=random.randint(1,3)
-    for i in range (number_of_boxes):
-        x5 = turtle.clone()
-        x5.shape("square")
-        boxes_list.append(x5)
-    for g in boxes_list:
-        g.goto(random.randint(-200,200),200)
 
 
 bad_pos = (0,0)
@@ -353,6 +289,3 @@ move_player()
 create_box()
 fall()
 
-if player_pos() == box_pos():
-    print("YOU LOST !")
-    quit()
