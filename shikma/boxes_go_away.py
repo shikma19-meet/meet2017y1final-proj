@@ -59,14 +59,18 @@ TIME_STEP = 100
 TIME_STEP2 = 10000
 SPACEBAR = 'space'
 
-    
+def distance(pos1,pos2):
+    x1,y1 = pos1
+    x2,y2 = pos2
+    d = ((x1-x2)**2+(y1-y2)**2)**(1/2)
+    return d
 
 def move_player():
     global my_clone
     my_pos = turtle.pos()
     x_pos = my_pos[0]
     y_pos = my_pos[1]
-
+    #print(my_pos)
     x_ok = LEFT_EDGE <= x_pos <= RIGHT_EDGE
     y_ok = UP_EDGE >= y_pos >= DOWN_EDGE
     within_bounds = x_ok and y_ok
@@ -78,8 +82,10 @@ def move_player():
     if y_pos >= UP_EDGE:
         turtle.goto(x_pos, UP_EDGE + 10)
 
-    if turtle.pos() in my_clone.pos():
-        quit()
+    for box in turtles_list:
+        d = distance(turtle.pos(),box.pos())
+        if d < 10:
+            quit()
         
  
     if within_bounds: 
