@@ -14,7 +14,7 @@ def menu():
     if x == 'NO' or x == 'QUIT':
         quit()
     elif x == 'YES':
-        print('')
+##        print('')
 menu()
 '''
 print('are you MALE/FEMALE ? (*PLEASE USE CAPITAL LETTERS)')
@@ -86,30 +86,30 @@ def move_player():
     x_ok = LEFT_EDGE <= x_pos <= RIGHT_EDGE
     y_ok = UP_EDGE >= y_pos >= DOWN_EDGE
     within_bounds = x_ok and y_ok
-
+    #print(within_bounds)
     if turtle.pos()[0] == RIGHT_EDGE:
         turtle.goto (LEFT_EDGE + 20,turtle.pos()[1])        
     if turtle.pos()[0] == LEFT_EDGE :
         turtle.goto (RIGHT_EDGE - 20,turtle.pos()[1])
 
     # pseudo bounce back on edges
-##    if x_pos >= RIGHT_EDGE:
-##            turtle.goto(RIGHT_EDGE -20, y_pos)
-##    if x_pos <= LEFT_EDGE:
-##            turtle.goto(LEFT_EDGE + 20, y_pos)
-##    
-##
-##    if turtle.pos()[0] == RIGHT_EDGE:
-##        turtle.goto(RIGHT_EDGE -10,y_pos)
-##    if turtle.pos()[0] == LEFT_EDGE:
-##        turtle.goto(LEFT_EDGE + 10,y_pos)
-##
-##    # only move if within bounds of game
-##    if within_bounds: 
-##    if direction == RIGHT:
-##        turtle.goto(x_pos + 20,y_pos)
-##    elif direction == LEFT:
-##        turtle.goto(x_pos - 20,y_pos)
+    if x_pos >= RIGHT_EDGE:
+            turtle.goto(RIGHT_EDGE -20, y_pos)
+    if x_pos <= LEFT_EDGE:
+            turtle.goto(LEFT_EDGE + 20, y_pos)
+    
+
+    if turtle.pos()[0] == RIGHT_EDGE:
+        turtle.goto(RIGHT_EDGE -10,y_pos)
+    if turtle.pos()[0] == LEFT_EDGE:
+        turtle.goto(LEFT_EDGE + 10,y_pos)
+
+    # only move if within bounds of game
+    if within_bounds: 
+        if direction == RIGHT:
+            turtle.goto(x_pos + 20,y_pos)
+        elif direction == LEFT:
+            turtle.goto(x_pos - 20,y_pos)
 
     for box in turtles_list:
         d = distance(turtle.pos(),box.pos())
@@ -125,7 +125,7 @@ def move_player():
         print('EATEN GOOD FOOD!')
         score = score + 1
         turtle2.clear()
-        turtle2.write(str(score),font=("Aerial", 24, "normal"))
+        turtle2.write(str(score),font=("Arial", 24, "normal"))
         good_food()
         
     if turtle.pos() in bad_food_pos:
@@ -136,7 +136,7 @@ def move_player():
         print('EATEN BAD FOOD!')
         score = score - 1
         turtle2.clear()
-        turtle2.write(str(score), font=("Aerial", 24, "normal"))
+        turtle2.write(str(score), font=("Arial", 24, "normal"))
         if score == -5:
             print('GAME OVER!')
             quit()
@@ -221,19 +221,19 @@ def good_food():
 def create_box():
     global y_pos,box,SIZE_X,player_size 
     top_y = 300
-    #
     possible_x_vals = [x for x in range(-345, 345+1, 20)]
     rand_i = random.randint(0, len(possible_x_vals) - 1)
     x = possible_x_vals[rand_i]
-    #
     turtles_list.append(turtle.clone())
     turtles_list[-1].hideturtle() 
     turtles_list[-1].shape("square")
     turtles_list[-1].fillcolor('red')
-    turtles_list[-1].goto(x,top_y)
-    turtles_list[-1].showturtle()
+    for i in range(10):
+        turtles_list[-1].goto(x,top_y-20)
+        turtles_list[-1].showturtle()
+        top_y = top_y-20
 
-
+    '''
     #maybe a problem
     min_x=-int(SIZE_X/2/player_size)+1
     max_x=int(SIZE_X/2/player_size)-1
@@ -246,7 +246,7 @@ def create_box():
     #box.goto(x,260)
     #box.addshape('box.gif')
     #box.shape('box.gif')
-    
+    '''
     #all_way = 510
 bottom_y = -280
 count = 0        
@@ -267,33 +267,26 @@ def fall():
          num_box = count//100
          for i in range(num_box):
              create_box()
+
+         turtle.ontimer(clear, 5000)
+
+
+             
          #for num_box in :
 
      #create_box()
      #turtle.ontimer(create_box,TIME_STEP2)
-     turtle.ontimer(fall,TIME_STEP)
-
-     
-#If we want to use it
-##def chose_number():
-##    number_of_boxes=random.randint(1,3)
-##    boxes_list = []
-##    for i in range (number_of_boxes):
-##        x5 = turtle.clone()
-##        x5.shape("square")
-##        boxes_list.append(x5)
-##    for g in boxes_list:
-##        g.goto(random.randint(-200,200),200)
-
-
-bad_pos = (0,0)
+turtle.ontimer(fall,TIME_STEP)
 bad_food = turtle.clone()
 bad_food.shape('square')
 bad_food.fillcolor('black')
-bad_food.hideturtle()
-def bad_food1():
-##    global SIZE_X,player_size,y_pos,bad_food
+def clear():
     global SIZE_X,player_size,bad_food
+    bad_pos = (0,0)
+    bad_food.hideturtle()
+def bad_food1():
+    global SIZE_X,player_size,y_pos,bad_food
+      
     y_pos = turtle.pos()[1]
     #
 ##    min_x=-int(SIZE_X/2/player_size)+1
@@ -309,6 +302,9 @@ def bad_food1():
     bad_stamp_new = bad_food.stamp()
     #stamp_old = food_stamps[-1]
     bad_food_stamps.append(bad_stamp_new)
+    for i in turtles_list:
+        i.hideturtle()
+        i.goto(1000,1000)
 my_clone = turtle.clone()
 my_clone.ht()
 bad_food1()
@@ -319,6 +315,8 @@ fall()
 
 turtle.mainloop()
 
+'''
 if turtle.pos() == box_pos():
     print("YOU LOST !")
     quit()
+'''
