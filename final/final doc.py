@@ -39,6 +39,9 @@ this_background = background_list [randbackground]
 turtle.register_shape(this_background)
 turtle.bgpic(this_background)
 
+randbox_color= random.randint (0,len(box_color_list)-1)
+this_box_color = box_color_list [randbox_color]
+turtle.register_shape(this_box_color)
 # initial vars
 turtle.goto(-5,-270)
 good_food=['orange.gif', 'pepper.gif']
