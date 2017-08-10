@@ -4,8 +4,6 @@ import time
 
 """
 Changes / expectations:
-1. The idea will be stay away from the dangerous red blocks
-2. Grid and making sure that boxes fall in the expected columns
 4. Establish borders, and stop when trying to cross the border
 """
 
@@ -45,7 +43,7 @@ turtle.register_shape(this_background)
 turtle.bgpic(this_background)
 
 # initial vars
-turtle.goto(0,-287.5)
+turtle.goto(-5,-270)
 good_food_pos= []
 bad_food_pos = []
 good_food_stamps = []
@@ -72,6 +70,11 @@ RIGHT_ARROW = 'Right'
 TIME_STEP = 100
 TIME_STEP2 = 10000
 
+def distance(pos1,pos2):
+    x1,y1 = pos1
+    x2,y2 = pos2
+    d = ((x1-x2)**2+(y1-y2)**2)**(1/2)
+    return d
     
 def move_player():
     global food,score
@@ -84,27 +87,34 @@ def move_player():
     y_ok = UP_EDGE >= y_pos >= DOWN_EDGE
     within_bounds = x_ok and y_ok
 
-    # pseudo bounce back on edges
-    if x_pos >= RIGHT_EDGE:
-            turtle.goto(RIGHT_EDGE -20, y_pos)
-    if x_pos <= LEFT_EDGE:
-            turtle.goto(LEFT_EDGE + 20, y_pos)
-    
-
     if turtle.pos()[0] == RIGHT_EDGE:
-        turtle.goto(RIGHT_EDGE -10,y_pos)
-    if turtle.pos()[0] == LEFT_EDGE:
-        turtle.goto(LEFT_EDGE + 10,y_pos)
+        turtle.goto (LEFT_EDGE + 20,turtle.pos()[1])        
+    if turtle.pos()[0] == LEFT_EDGE :
+        turtle.goto (RIGHT_EDGE - 20,turtle.pos()[1])
 
-    # only move if within bounds of game
+    # pseudo bounce back on edges
+##    if x_pos >= RIGHT_EDGE:
+##            turtle.goto(RIGHT_EDGE -20, y_pos)
+##    if x_pos <= LEFT_EDGE:
+##            turtle.goto(LEFT_EDGE + 20, y_pos)
+##    
+##
+##    if turtle.pos()[0] == RIGHT_EDGE:
+##        turtle.goto(RIGHT_EDGE -10,y_pos)
+##    if turtle.pos()[0] == LEFT_EDGE:
+##        turtle.goto(LEFT_EDGE + 10,y_pos)
+##
+##    # only move if within bounds of game
 ##    if within_bounds: 
-    if direction == RIGHT:
-        turtle.goto(x_pos + 10,y_pos)
-    elif direction == LEFT:
-        turtle.goto(x_pos - 10,y_pos)
-##        global my_clone        
-##        if turtle.pos == my_clone.pos():
-        
+##    if direction == RIGHT:
+##        turtle.goto(x_pos + 20,y_pos)
+##    elif direction == LEFT:
+##        turtle.goto(x_pos - 20,y_pos)
+
+    for box in turtles_list:
+        d = distance(turtle.pos(),box.pos())
+        if d < 10:
+            quit()     
 ##next line might be trouble
     global food,score            
     if turtle.pos() in good_food_pos:
@@ -149,6 +159,7 @@ turtle.register_shape('man_left.gif')
 turtle.register_shape('woman_right.gif')
 turtle.register_shape('woman_left.gif')
 
+
 if gender  == "MALE" :
     turtle.shape('man_right.gif')        
 else:
@@ -191,9 +202,14 @@ food.fillcolor('green')
 food.hideturtle()
 
 def good_food():
-    min_x=-int(SIZE_X/2/player_size)+1
-    max_x=int(SIZE_X/2/player_size)-1
-    food_x = random.randint(min_x,max_x)*player_size
+    #
+##    min_x=-int(SIZE_X/2/player_size)+1
+##    max_x=int(SIZE_X/2/player_size)-1
+##    food_x = random.randint(min_x,max_x)*player_size
+    #
+    possible_x_vals = [x for x in range(-345, 345+1, 20)]
+    rand_i = random.randint(0, len(possible_x_vals) - 1)
+    food_x = possible_x_vals[rand_i]
     food.goto(food_x,turtle.pos()[1])
     good_food_pos.append(food.pos())
     stampnew = food.stamp()
@@ -205,9 +221,11 @@ def good_food():
 def create_box():
     global y_pos,box,SIZE_X,player_size 
     top_y = 300
-    min_x=-int(SIZE_X/2/player_size)+1
-    max_x=int(SIZE_X/2/player_size)-1
-    x = random.randint(min_x,max_x)*player_size
+    #
+    possible_x_vals = [x for x in range(-345, 345+1, 20)]
+    rand_i = random.randint(0, len(possible_x_vals) - 1)
+    x = possible_x_vals[rand_i]
+    #
     turtles_list.append(turtle.clone())
     turtles_list[-1].hideturtle() 
     turtles_list[-1].shape("square")
@@ -267,6 +285,7 @@ def fall():
 ##    for g in boxes_list:
 ##        g.goto(random.randint(-200,200),200)
 
+
 bad_pos = (0,0)
 bad_food = turtle.clone()
 bad_food.shape('square')
@@ -276,9 +295,15 @@ def bad_food1():
 ##    global SIZE_X,player_size,y_pos,bad_food
     global SIZE_X,player_size,bad_food
     y_pos = turtle.pos()[1]
-    min_x=-int(SIZE_X/2/player_size)+1
-    max_x=int(SIZE_X/2/player_size)-1
-    bad_food_x = random.randint(min_x,max_x)*player_size
+    #
+##    min_x=-int(SIZE_X/2/player_size)+1
+##    max_x=int(SIZE_X/2/player_size)-1
+##    bad_food_x = random.randint(min_x,max_x)*player_size
+    #
+    possible_x_vals = [x for x in range(-345, 345+1, 20)]
+    rand_i = random.randint(0, len(possible_x_vals) - 1)
+    bad_food_x = possible_x_vals[rand_i]
+    print(bad_food_x)
     bad_food.goto(bad_food_x,y_pos)
     bad_food_pos.append(bad_food.pos())
     bad_stamp_new = bad_food.stamp()
