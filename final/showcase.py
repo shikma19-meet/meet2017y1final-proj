@@ -6,7 +6,8 @@ import time
 Changes / expectations:
 4. Establish borders, and stop when trying to cross the border
 """
-
+print('are you MALE/FEMALE ? (*PLEASE USE CAPITAL LETTERS)')
+gender = input('ANSWER:')
 turtle.tracer(1, 0)
 '''
 def menu():
@@ -17,8 +18,7 @@ def menu():
 ##        print('')
 menu()
 '''
-print('are you MALE/FEMALE ? (*PLEASE USE CAPITAL LETTERS)')
-gender = input('ANSWER:')
+
 ###############################################################
 # screen setup + score turtle clone + player
 # score 
@@ -94,15 +94,17 @@ def move_player():
 
     # pseudo bounce back on edges
     if x_pos >= RIGHT_EDGE:
-            turtle.goto(RIGHT_EDGE -20, y_pos)
+        turtle.goto(RIGHT_EDGE -20, y_pos)
+        #turtle.goto(LEFT_EDGE,y_pos)
     if x_pos <= LEFT_EDGE:
-            turtle.goto(LEFT_EDGE + 20, y_pos)
+        turtle.goto(LEFT_EDGE + 20, y_pos)
+        #turtle.goto(RIGHT_EDGE, y_pos)
     
 
-    if turtle.pos()[0] == RIGHT_EDGE:
-        turtle.goto(RIGHT_EDGE -10,y_pos)
-    if turtle.pos()[0] == LEFT_EDGE:
-        turtle.goto(LEFT_EDGE + 10,y_pos)
+##    if turtle.pos()[0] == RIGHT_EDGE:
+##        turtle.goto(RIGHT_EDGE -10,y_pos)
+##    if turtle.pos()[0] == LEFT_EDGE:
+##        turtle.goto(LEFT_EDGE + 10,y_pos)
 
     # only move if within bounds of game
     if within_bounds: 
@@ -114,7 +116,8 @@ def move_player():
     for box in turtles_list:
         d = distance(turtle.pos(),box.pos())
         if d < 10:
-            quit()     
+            exit()
+            #quit()     
 ##next line might be trouble
     global food,score            
     if turtle.pos() in good_food_pos:
@@ -139,7 +142,8 @@ def move_player():
         turtle2.write(str(score), font=("Arial", 24, "normal"))
         if score == -5:
             print('GAME OVER!')
-            quit()
+            #quit()
+            exit()
         bad_food1()
 LEFT = 1
 RIGHT = 3
@@ -158,6 +162,9 @@ turtle.register_shape('man_right.gif')
 turtle.register_shape('man_left.gif')
 turtle.register_shape('woman_right.gif')
 turtle.register_shape('woman_left.gif')
+turtle.register_shape('orange.gif')
+turtle.register_shape('cupcake.gif')
+turtle.register_shape('box1.gif')
 
 
 if gender  == "MALE" :
@@ -197,8 +204,8 @@ turtle.listen()
     
 good_pos = (0,0) ##
 food = turtle.clone()
-food.shape('square')
-food.fillcolor('green')
+food.shape('orange.gif')
+#food.fillcolor('green')
 food.hideturtle()
 
 def good_food():
@@ -210,28 +217,34 @@ def good_food():
     possible_x_vals = [x for x in range(-345, 345+1, 20)]
     rand_i = random.randint(0, len(possible_x_vals) - 1)
     food_x = possible_x_vals[rand_i]
-    food.goto(food_x,turtle.pos()[1])
-    good_food_pos.append(food.pos())
-    stampnew = food.stamp()
-    #stamp_old = food_stamps[-1]
-    good_food_stamps.append(stampnew)
+    if food_x == bad_food.pos()[0]:
+        good_food()
+    else:
+        food.goto(food_x,turtle.pos()[1])
+        good_food_pos.append(food.pos())
+        stampnew = food.stamp()
+        #stamp_old = food_stamps[-1]
+        good_food_stamps.append(stampnew)
 
 
 
 def create_box():
     global y_pos,box,SIZE_X,player_size 
-    top_y = 300
+    top_y = SIZE_Y
     possible_x_vals = [x for x in range(-345, 345+1, 20)]
     rand_i = random.randint(0, len(possible_x_vals) - 1)
     x = possible_x_vals[rand_i]
-    turtles_list.append(turtle.clone())
-    turtles_list[-1].hideturtle() 
-    turtles_list[-1].shape("square")
-    turtles_list[-1].fillcolor('red')
-    for i in range(10):
-        turtles_list[-1].goto(x,top_y-20)
-        turtles_list[-1].showturtle()
-        top_y = top_y-20
+    if x == food.pos()[0] or x == bad_food.pos()[0]:
+        create_box()
+    else:
+        turtles_list.append(turtle.clone())
+        turtles_list[-1].hideturtle() 
+        turtles_list[-1].shape("box1.gif")
+        #turtles_list[-1].fillcolor('red')
+        for i in range(10):
+            turtles_list[-1].goto(x,top_y-20)
+            turtles_list[-1].showturtle()
+            top_y = top_y-20
 
     '''
     #maybe a problem
@@ -248,27 +261,35 @@ def create_box():
     #box.shape('box.gif')
     '''
     #all_way = 510
-bottom_y = -280
-count = 0        
+bottom_y = -270
+count = 100        
 def fall():
      global turtles_list,top_y,x_pos,turtle,count,y_pos,bottom_y
      for my_clone in turtles_list:
          x1 = my_clone.pos()[0]
          y1 =  my_clone.pos()[1]
-         if y1 > y_pos:
-             y1 = y1 -25
+         new_y = y1-40
+         #if y1 > y_pos:
+         if new_y > bottom_y:
+             #y1 = y1 -25
              #x1 = x_pos
-             my_clone.goto(x1,y1)
-         if bottom_y > my_clone.pos()[1]:
-             my_clone.goto(x1,y_pos)
-     count += 1
+             my_clone.goto(x1,new_y)
+##         if bottom_y > my_clone.pos()[1]:
+##             my_clone.goto(x1,y_pos)
+         else:
+             my_clone.goto(x1,bottom_y)
+     count += 4
 #     print(count)
      if count%100==0:
          num_box = count//100
          for i in range(num_box):
              create_box()
-
-         turtle.ontimer(clear, 5000)
+         for box in turtles_list[0:num_box-1]:
+             box.goto(10000,10000)
+             del box
+         del turtles_list[0:num_box-1]
+         
+         #turtle.ontimer(clear, 5000)
 
 
              
@@ -276,14 +297,15 @@ def fall():
 
      #create_box()
      #turtle.ontimer(create_box,TIME_STEP2)
-turtle.ontimer(fall,TIME_STEP)
+     turtle.ontimer(fall,TIME_STEP)
+    
 bad_food = turtle.clone()
-bad_food.shape('square')
-bad_food.fillcolor('black')
-def clear():
-    global SIZE_X,player_size,bad_food
-    bad_pos = (0,0)
-    bad_food.hideturtle()
+bad_food.shape('cupcake.gif')
+#bad_food.fillcolor('black')
+##def clear():
+##    global SIZE_X,player_size,bad_food
+##    bad_pos = (0,0)
+##    bad_food.hideturtle()
 def bad_food1():
     global SIZE_X,player_size,y_pos,bad_food
       
@@ -296,15 +318,18 @@ def bad_food1():
     possible_x_vals = [x for x in range(-345, 345+1, 20)]
     rand_i = random.randint(0, len(possible_x_vals) - 1)
     bad_food_x = possible_x_vals[rand_i]
-    print(bad_food_x)
-    bad_food.goto(bad_food_x,y_pos)
-    bad_food_pos.append(bad_food.pos())
-    bad_stamp_new = bad_food.stamp()
-    #stamp_old = food_stamps[-1]
-    bad_food_stamps.append(bad_stamp_new)
-    for i in turtles_list:
-        i.hideturtle()
-        i.goto(1000,1000)
+    if bad_food_x == food.pos()[0]:
+        bad_food1()
+    else:
+        print(bad_food_x)
+        bad_food.goto(bad_food_x,y_pos)
+        bad_food_pos.append(bad_food.pos())
+        bad_stamp_new = bad_food.stamp()
+        #stamp_old = food_stamps[-1]
+        bad_food_stamps.append(bad_stamp_new)
+##    for i in turtles_list:
+##        i.hideturtle()
+##        i.goto(1000,1000)
 my_clone = turtle.clone()
 my_clone.ht()
 bad_food1()
