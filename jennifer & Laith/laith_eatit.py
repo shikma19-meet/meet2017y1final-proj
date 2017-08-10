@@ -2,6 +2,7 @@ import random
 import turtle
 import time
 
+
 def menu():
     x = input('would you like to start the game? \n (YES/NO) \n would you like to quit the menu bar? \n (QUIT) \n *PLEASE USE CAPITAL LETTERS \n YOUR ANSWER: ')
     if x == 'NO' or x == 'QUIT':
@@ -56,6 +57,7 @@ screen.bgcolor('light blue')
 
 turtle.goto(0,-200)
 good_food_pos= []
+boxes_list = []
 bad_food_pos = []
 good_food_stamps = []
 bad_food_stamps = []
@@ -96,59 +98,58 @@ def move_player():
     y_ok = UP_EDGE >= y_pos >= DOWN_EDGE
     within_bounds = x_ok and y_ok
 
-    if x_pos >= RIGHT_EDGE:
-            turtle.goto(RIGHT_EDGE - 10, y_pos)
-    if x_pos <= LEFT_EDGE:
-            turtle.goto(LEFT_EDGE + 10, y_pos)
-    if y_pos >= UP_EDGE:
-        turtle.goto(x_pos, UP_EDGE + 10)
+    if turtle.pos()[0] == RIGHT_EDGE:
+        turtle.goto (LEFT_EDGE + 20,turtle.pos()[1])        
+    if turtle.pos()[0] == LEFT_EDGE :
+        turtle.goto (RIGHT_EDGE - 20,turtle.pos()[1])
     
-    
-    
-        
- 
-    if within_bounds: 
-        if direction == RIGHT:
-            turtle.goto(x_pos + 10,y_pos)
-        elif direction == LEFT:
-            turtle.goto(x_pos - 10,y_pos)
-        elif direction == UP:
-            turtle.goto(x_pos, y_pos +10)
-        elif direction == DOWN:
-            turtle.goto(x_pos,y_pos -10)
-        global my_clone        
-        if turtle.pos == my_clone.pos():
-            if direction == UP:
-                turtle.goto(x_pos, y_pos +10)
-        #if turtle.pos() == my_clone.pos():
+####'''
+####    if x_pos >= RIGHT_EDGE:
+####            turtle.goto(RIGHT_EDGE - 10, y_pos)
+####    if x_pos <= LEFT_EDGE:
+####            turtle.goto(LEFT_EDGE + 10, y_pos)
+####    if y_pos >= UP_EDGE:
+####        turtle.goto(x_pos, UP_EDGE + 10)
+####'''
+##    if within_bounds: 
+##        if direction == RIGHT:
+##            turtle.goto(x_pos + 10,y_pos)
+##        elif direction == LEFT:
+##            turtle.goto(x_pos - 10,y_pos)
+##        elif direction == UP:
+##            turtle.goto(x_pos, y_pos +10)
+##       
+##        #if turtle.pos() == my_clone.pos():
+##            
+##
+##    '''        
+##    else:
+##        # x checks
+##        # right edge check
+##        if x_pos >= RIGHT_EDGE:
+##            if direction == LEFT:
+##                turtle.goto(x_pos - 1,y_pos)
+##        if x_pos <= LEFT_EDGE:
+##            if direction == RIGHT:
+##                turtle.goto(x_pos + 1,y_pos)
+##                
+##        if y_pos >= UP_EDGE:
+##            if direction == RIGHT:
+##                turtle.goto(x_pos + 10,y_pos)
+##            elif direction == LEFT:
+##                turtle.goto(x_pos - 10, y_pos)
+##            elif direction == DOWN:
+##                turtle.goto(x_pos, y_pos -10)
+##            
+##        if y_pos <= DOWN_EDGE:
+##            if direction == RIGHT:
+##                turtle.goto(x_pos + 10,y_pos)
+##            elif direction == LEFT:
+##                turtle.goto(x_pos - 10, y_pos)
+##            elif direction == UP:
+##                turtle.goto(x_pos, y_pos + 10)
+##    '''                
             
-
-        '''
-    else:
-        # x checks
-        # right edge check
-        if x_pos >= RIGHT_EDGE:
-            if direction == LEFT:
-                turtle.goto(x_pos - 10,y_pos)
-        if x_pos <= LEFT_EDGE:
-            if direction == RIGHT:
-                turtle.goto(x_pos + 10,y_pos)
-        if y_pos >= UP_EDGE:
-            if direction == RIGHT:
-                turtle.goto(x_pos + 10,y_pos)
-            elif direction == LEFT:
-                turtle.goto(x_pos - 10, y_pos)
-            elif direction == DOWN:
-                turtle.goto(x_pos, y_pos -10)
-            
-        if y_pos <= DOWN_EDGE:
-            if direction == RIGHT:
-                turtle.goto(x_pos + 10,y_pos)
-            elif direction == LEFT:
-                turtle.goto(x_pos - 10, y_pos)
-            elif direction == UP:
-                turtle.goto(x_pos, y_pos + 10)
-    '''        
     global food,score
     #turtle.ontimer(move_player,TIME_STEP)
     if turtle.pos() in good_food_pos:
@@ -191,24 +192,12 @@ if gender  == "MALE" :
 else:
     turtle.shape('woman_right.gif')
 
-
-def up():
-    global direction
-    direction = UP
-    move_player()
-    jump()
-    print('you pressed the up key')
     
-def down():
-    global direction
-    direction = DOWN
-    move_player()
-    print('you pressed the down key')
     
 def left():
     global direction
     direction = LEFT
-
+    
     if gender  == "MALE" :
         turtle.shape('man_left.gif')        
     else:
@@ -220,20 +209,17 @@ def left():
 def right():
     global direction
     direction = RIGHT
-
+    
     if gender  == "MALE" :
         turtle.shape('man_right.gif')        
     else:
         turtle.shape('woman_right.gif')
-  
     
+  
     move_player()
     print('you pressed the right key')
 
 
-
-turtle.onkeypress(up, UP_ARROW)
-turtle.onkeypress(down, DOWN_ARROW)
 turtle.onkeypress(left, LEFT_ARROW)
 turtle.onkeypress(right, RIGHT_ARROW)
 turtle.listen()
@@ -257,6 +243,7 @@ def good_food():
 
 
 def create_box():
+    
     global y_pos,box,SIZE_X,player_size 
     top_y = 300
     min_x=-int(SIZE_X/2/player_size)+1
@@ -353,6 +340,6 @@ move_player()
 create_box()
 fall()
 
-if player_pos() == box_pos():
+if turtle.pos() in box_pos:
     print("YOU LOST !")
     quit()
