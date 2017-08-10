@@ -2,10 +2,8 @@ import random
 import turtle
 import time
 
-"""
-Changes / expectations:
-4. Establish borders, and stop when trying to cross the border
-"""
+print('are you MALE/FEMALE ? (*PLEASE USE CAPITAL LETTERS)')
+gender = input('ANSWER:')
 
 turtle.tracer(1, 0)
 '''
@@ -17,8 +15,7 @@ def menu():
         print('')
 menu()
 '''
-print('are you MALE/FEMALE ? (*PLEASE USE CAPITAL LETTERS)')
-gender = input('ANSWER:')
+
 ###############################################################
 # screen setup + score turtle clone + player
 # score 
