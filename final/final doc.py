@@ -16,7 +16,7 @@ def menu():
 menu()
 '''
 
-###############################################################
+
 # screen setup + score turtle clone + player
 # score 
 turtle2 = turtle.clone()
