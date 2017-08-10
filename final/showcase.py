@@ -2,8 +2,10 @@ import random
 import turtle
 import time
 
-print('are you MALE/FEMALE ? (*PLEASE USE CAPITAL LETTERS)')
-gender = input('ANSWER:')
+"""
+Changes / expectations:
+4. Establish borders, and stop when trying to cross the border
+"""
 
 turtle.tracer(1, 0)
 '''
@@ -15,8 +17,9 @@ def menu():
 ##        print('')
 menu()
 '''
-
-
+print('are you MALE/FEMALE ? (*PLEASE USE CAPITAL LETTERS)')
+gender = input('ANSWER:')
+###############################################################
 # screen setup + score turtle clone + player
 # score 
 turtle2 = turtle.clone()
@@ -39,13 +42,8 @@ this_background = background_list [randbackground]
 turtle.register_shape(this_background)
 turtle.bgpic(this_background)
 
-randbox_color= random.randint (0,len(box_color_list)-1)
-this_box_color = box_color_list [randbox_color]
-turtle.register_shape(this_box_color)
 # initial vars
 turtle.goto(-5,-270)
-good_food=['orange.gif', 'pepper.gif']
-bad_food=['icecream.gif', 'cupcake.gif']
 good_food_pos= []
 bad_food_pos = []
 good_food_stamps = []
@@ -196,19 +194,12 @@ def right():
 turtle.onkeypress(left, LEFT_ARROW)
 turtle.onkeypress(right, RIGHT_ARROW)
 turtle.listen()
-########################################################################
-
-
     
 good_pos = (0,0) ##
 food = turtle.clone()
-foodi = random.randint (0, len(good_food)+1)
-turtle.register_shape(foodi)
-foodi = random.randint (0, len(good_food)+1)
-turtle.register_shape(foodi)
-this_food = good_list[foodi]
-food_stamp = food.stamp()
-
+food.shape('square')
+food.fillcolor('green')
+food.hideturtle()
 
 def good_food():
     #
