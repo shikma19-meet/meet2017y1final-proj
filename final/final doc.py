@@ -44,6 +44,8 @@ turtle.bgpic(this_background)
 
 # initial vars
 turtle.goto(-5,-270)
+good_food=['orange.gif', 'pepper.gif']
+bad_food=['icecream.gif', 'cupcake.gif']
 good_food_pos= []
 bad_food_pos = []
 good_food_stamps = []
@@ -194,12 +196,19 @@ def right():
 turtle.onkeypress(left, LEFT_ARROW)
 turtle.onkeypress(right, RIGHT_ARROW)
 turtle.listen()
+########################################################################
+
+
     
 good_pos = (0,0) ##
 food = turtle.clone()
-food.shape('square')
-food.fillcolor('green')
-food.hideturtle()
+foodi = random.randint (0, len(good_food)+1)
+turtle.register_shape(foodi)
+foodi = random.randint (0, len(good_food)+1)
+turtle.register_shape(foodi)
+this_food = good_list[foodi]
+food_stamp = food.stamp()
+
 
 def good_food():
     #
